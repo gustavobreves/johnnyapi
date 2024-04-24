@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id               Int         @id @unique @default(autoincrement())
+  nome             String      @db.VarChar(20)
+  sobrenome        String      @db.VarChar(20)
+  //username         String      @unique
+  email            String      @unique @db.VarChar(50)
+  telefone         String      @db.VarChar(15)
+  fotoPerfil       String      @default("fotoPerfil.png")
+  hashedPassword   String      @default("")
+  ativo            Boolean     @default(true)
+  criadoEm         DateTime    @default(now())
+  atualizEm        DateTime    @updatedAt
+}
+
+model Cliente {
+  id                Int         @id @unique @default(autoincrement())
+  nome              String      @db.VarChar(30) @default("")
+  telefone          String      @db.VarChar(11) @default("")
+  email             String      @default("")
+  evento            Evento      @relation(fields: [idEvento], references: [id])
+  idEvento          Int
+  tipoCliente       String      @default("PC") //Protagonista e Contratante
+  //nome              String      @db.VarChar(30) @default("")
+}
+
+model EventoTipo {
+  id              Int           @id @unique @default(autoincrement())
+  nome            String        @default("")
+  evento          Evento[]
+}
+
+model Evento {
+  id              Int           @id @unique @default(autoincrement())
+  eventoTipo      EventoTipo    @relation(fields: [idEventoTipo], references: [id])
+  idEventoTipo    Int
+  dataHora        DateTime      @default(now()) //@db.Timestamptz
+  indicadoPor     String        @default("")
+  local           String        @default("")
+  statusVenda     String        @db.Char(2) @default("CI")
+  criadoEm        DateTime      @default(now()) 
+  status          String        @db.Char(1) @default("A")
+  cliente         Cliente[]
+}
+
+//StatusVenda:  
+//CI:  contato inicial
+//PL:  plantar (enviar amostra de trabalhos e oferecer orçamento)
+//RE:  regar   (negociar orçamento)
+//AC:  acompanhar 
+//CO:  colher  (marcar evento e combina pagto)

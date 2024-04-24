@@ -1,0 +1,53 @@
+
+###
+POST http://localhost:3003/auth/login
+Content-Type: application/json
+
+{
+   "email":"dd@g.ce",
+   "password":"xptoqqc"
+}
+
+
+###
+POST http://localhost:3003/auth/signup
+Content-Type: application/json
+
+{
+   "email":"dd@g.ce",
+   "password":"xptoqqc"
+}
+
+
+###
+POST http://localhost:3003/auth/signin
+Content-Type: application/json
+
+{
+   "email":"dd@g.ce",
+   "password":"xptoqqc"
+}
+
+###
+GET http://localhost:3003/auth/signout
+
+
+
+###
+GET http://localhost:3003/users
+
+###
+GET http://localhost:3003/users/3
+
+
+
+Content-Type: application/json
+
+{
+   "email":"d@g.ce",
+   "password":"xp14565644664"
+}
+
+
+###
+GET http://localhost:3003/evento
